@@ -1,7 +1,8 @@
 import React, { Component} from 'react'
 import { Link } from 'react-router-dom'
+import {DebounceInput} from 'react-debounce-input'
 import PropTypes from 'prop-types'
-import Shelf from './Shelf.js'
+import Book from './Book.js'
 
 class SearchPage extends Component {
   static propTypes = {
@@ -21,7 +22,7 @@ class SearchPage extends Component {
             <div className="search-books-bar">
               <Link to='/' className='close-search'>Close</Link>
               <div className="search-books-input-wrapper">
-                  <input 
+                  <DebounceInput 
                   	type="text" 
                   	placeholder="Search by title or author"
       			        value={query}
@@ -30,20 +31,7 @@ class SearchPage extends Component {
               </div>
             </div>
             <div className="search-books-results">
-              <ol className="books-grid">
-              	{foundBooks.map((book) => (
-    				        <li key={book.id}>
-                  		<div className="book">
-                    			<div className="book-top">
-                      			<div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(https://books.google.com/books/content?id=${book.id}&printsec=frontcover&img=1&zoom=1)` }}></div>
-                      			<Shelf book = {books.find(b => b.id === book.id) || book} changeShelf={changeShelf} shelf={book.shelf}/>
-                    			</div>
-                    			<div className="book-title">{book.title}</div>
-                    			<div className="book-authors">{book.authors && book.authors.join(', ')}</div>
-                  		</div>
-                		</li>
-    			      ))}
-              </ol>
+              <Book books={foundBooks} listBooks={books} changeShelf={changeShelf} />
             </div>
           </div>
     )

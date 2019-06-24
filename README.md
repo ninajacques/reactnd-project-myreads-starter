@@ -1,4 +1,8 @@
-# MyReads Project
+# MyReads
+
+O MyReads é uma estante virtual para organização de livros. Você pode classifica-los em três categorias: Currently Reading, Want to Read e Read. Quando quiser, você pode
+alterar a categoria em que o livro se encontra.
+O aplicativo também tem uma área de busca, onde você pode buscar outros títulos e adicioná-los a sua estante, dentro das categorias disponíveis.
 
 Para iniciar o projeto, você deve:
 
