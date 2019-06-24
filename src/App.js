@@ -1,11 +1,11 @@
-import React from 'react'
-import { Route } from 'react-router-dom'
+import React, { Component } from 'react'
+import { Route, Switch } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import Main from './Main.js'
 import './App.css'
 import SearchPage from './components/SearchPage.js'
 
-class BooksApp extends React.Component {
+class BooksApp extends Component {
   state = {
     books: [],
     foundBooks: [],
@@ -34,21 +34,27 @@ class BooksApp extends React.Component {
   changeShelf = (updatedBook, shelf) => {
     BooksAPI.update(updatedBook, shelf)
         .then(resp => {
-            console.log(resp)
             updatedBook.shelf = shelf;
             this.setState(prevState => ({
                 books: prevState.books.filter(book => updatedBook.id !== book.id).concat([updatedBook])
             }))
         })
   }
+
+  noMatch = ({ location }) => (
+    <div>
+      <h3>Error to found "{location.pathname}". This page doesn't exist.</h3>
+    </div>
+  )
  
   render() {
     return (
       <div className="app">
+        <Switch>
           <Route exact path='/' render={() => (
             <Main books={this.state.books} changeShelf={this.changeShelf} />
           )}/>
-          <Route path='/search' render={({ history }) => (
+          <Route path='/search' render={() => (
             <SearchPage
               changeShelf = {this.changeShelf}
               query={this.state.query}
@@ -56,7 +62,9 @@ class BooksApp extends React.Component {
               updateSearch = {this.updateSearch}
               books={this.state.books}
             />
-          )} />
+          )}/>
+          <Route component={this.noMatch} />
+        </Switch>
       </div>
     )
   }
